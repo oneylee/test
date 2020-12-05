@@ -1,11 +1,14 @@
 #include <iostream>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/unistd.h>
 #include <sys/inotify.h>
 
 int main()
 {
     int notify_fd = inotify_init();
-    inotify_add_watch(notify_fd, ".", IN_MODIFY | IN_CREATE | IN_DELETE);
+    inotify_add_watch(notify_fd, "tt.cc", IN_MODIFY | IN_CREATE | IN_DELETE);
 
     static const uint32_t BUFFSIZE = 10240;
     char buf[BUFFSIZE + 1] = {0};
@@ -20,8 +23,12 @@ int main()
             {
                 struct inotify_event* event = (struct inotify_event*)&buf[i];
                 std::cout << event->len << std::endl;
+                struct stat st;
+                fstat(event->wd, &st);
+                std::cout << event->len << std::endl;
+                i += sizeof(struct inotify_event);
             }
-            
+           
             
             
         }
