@@ -23,4 +23,20 @@ XX(WEATHER, DATE)
 
 DECL_TABLE(WEATHER)
 
-    
+struct Protocol
+{
+    enum Type
+    {
+        HTTP,
+        TCP,
+        UDP,
+        UNKNOWN
+    };
+    static const char* kHttp;
+    static const char* kTcp;
+    static const char* kUdp;
+
+    static const std::string g_ProtocolStr[Type::UNKNOWN];
+
+    static Type Mapped(const std::string& ss);
+};
